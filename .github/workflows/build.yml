@@ -69,6 +69,29 @@ jobs:
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: results.sarif
+  dast-scan:
+    name: Dast Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Nuclei - Vulnerability Scan
+      id: nuclei_scan
+      uses: projectdiscovery/nuclei-action@main
+      with:
+        target: https://demo.owasp-juice.shop/
+    - name: GitHub Workflow artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuclei.log
+        path: nuclei.log
+    - name: GitHub Security Dashboard Alerts update
+      uses: github/codeql-action/upload-sarif@v3
+      if: steps.nuclei_scan.outputs.sarif_exists == 'true'
+      with:
+        sarif_file: nuclei.sarif
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       
 
