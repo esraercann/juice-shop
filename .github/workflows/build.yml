@@ -52,7 +52,7 @@ jobs:
         with:
           sarif_file: semgrep.sarif
   secret-scan:
-    name: Grype Scan
+    name: Secret Scan
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -68,7 +68,7 @@ jobs:
     - name: Upload Sarif File
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: ${{ steps.gitleaks-scan.outputs.sarif}}
+        sarif_file: results.sarif
 
       
 
