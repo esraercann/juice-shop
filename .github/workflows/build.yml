@@ -1,0 +1,16 @@
+name: build
+on:
+  push:
+    branches:
+      -main
+  pull_request: 
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build docker image
+        run: |
+              docker build . -t juice-shop:${{ github.sha }}
