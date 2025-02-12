@@ -66,9 +66,9 @@ jobs:
       continue-on-error: true
       id: gitleaks-scan
     - name: Upload Sarif File
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: ${{ steps.gitleaks-scan.outputs.sarif}}
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ steps.gitleaks-scan.outputs.sarif}}
 
       
 
