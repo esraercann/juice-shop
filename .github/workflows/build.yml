@@ -50,6 +50,25 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
+  secret-scan:
+    name: Grype Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Scan Gitleaks
+      uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE}}
+          GITLEAKS_ENABLE_UPLOAD_ARTIFACT: true
+      continue-on-error: true
+      id: gitleaks-scan
+    - name: Upload Sarif File
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.gitleaks-scan.outputs.sarif}}
+
       
 
   
